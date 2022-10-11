@@ -6,7 +6,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.security.Key;
 import java.security.KeyFactory;
-import java.security.interfaces.RSAKey;
 import java.security.spec.EncodedKeySpec;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
@@ -26,17 +25,18 @@ public class Main {
     public static void main(String args[]) throws Exception {
         Key privateKey = readKeyFromFile(BASE_PATH + "rsa_key.priv", false);
         Key publicKey = readKeyFromFile(BASE_PATH + "rsa_key.pub", true);
-//read all my messages
+
+        //read all my messages
         readAllMyMessages(privateKey);
 
 //publish message
-        sendMessageTo("janhein", "java to python 2!");
+//        sendMessageTo("nando", "hallo hallo, ivar heir");
 
 // verify all messages
         verifyAll();
 
 // send a signed message
-        signMessage(privateKey, "ivar", "admin", encrypt(getPublicKeyFor("admin"), "helemaal en echt van mij, of niet?"));
+//        signMessage(privateKey, "ivar", "corneel", encrypt(getPublicKeyFor("corneel"), "helemaal en echt van mij, of niet?"));
     }
 
     private static String encrypt(Key key, String input) throws Exception {
@@ -77,11 +77,11 @@ public class Main {
 
     private static boolean isValidPublicKey(PublicKey key) {
         try {
-            // sanitise whitespace, newlines and PEM frmat
+            // sanitize whitespace, newlines and PEM format
             String toVerify = key.getKey()
-                    .replaceAll("\\s", "")
                     .replace("-----BEGIN PUBLIC KEY-----", "")
                     .replace("-----END PUBLIC KEY-----", "")
+                    .replaceAll("\\s", "")
                     .replace("\\n", "");
 
             Key publicKey = publicKeyFromString(toVerify);
@@ -123,7 +123,7 @@ public class Main {
             byte[] signature = Base64.getDecoder().decode(message.getSignature());
             String decrypted = decrypt(publicKye.getPublicKey(), signature);
             if (message.getMessage().equals(decrypted) || decrypted != null) {
-                System.out.println("Found a decryption match for message: " + message.getMessage() + " from " + message.getSender() + " is sent by: " + publicKye.getOwner() + "; decrypted: " + decrypted);
+                System.out.println("Found a decryption match ["+ message.getMessage().equals(decrypted)+"] for message: " + message.getMessage() + " from " + message.getSender() + " is sent by: " + publicKye.getOwner() + "; decrypted: " + decrypted);
                 return;
             }
         }

@@ -9,7 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class RestClient {
-    private static final String QUARKUS_COOKIE = "quarkus-credential=DA0Pw9aAgPI9/WFBo9pgTtxoAbujUmoH2gj5eGOsl8UXZnFOy9+oR67tBPgCw6A=";
+    private static final String QUARKUS_COOKIE = "quarkus-credential=DBnxJYvm7+fq3ov1j8z9uoeCaXIH1Z9CYWKk/Aaht70duHQBfKIDY4dIkj3Ktao=";
 
     static EncryptedMessage[] getAllEncryptedMessages() throws Exception {
         URL url = new URL("http://172.27.4.37:8080/encryptedMessages");
