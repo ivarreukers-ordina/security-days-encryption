@@ -30,13 +30,13 @@ public class Main {
         readAllMyMessages(privateKey);
 
 //publish message
-//        sendMessageTo("nando", "hallo hallo, ivar heir");
+        sendMessageTo("nando", "hallo hallo, ivar heir");
 
 // verify all messages
         verifyAll();
 
 // send a signed message
-//        signMessage(privateKey, "ivar", "corneel", encrypt(getPublicKeyFor("corneel"), "helemaal en echt van mij, of niet?"));
+        signMessage(privateKey, "ivar", "corneel", encrypt(getPublicKeyFor("corneel"), "helemaal en echt van mij, of niet?"));
     }
 
     private static String encrypt(Key key, String input) throws Exception {
@@ -99,11 +99,13 @@ public class Main {
         return kf.generatePublic(keySpec);
     }
 
+    //TODO add hashing
     public static void signMessage(Key privateKey, String sender, String receiver, String message) throws Exception {
         String signature = encrypt(privateKey, message);
         RestClient.publishSignedMessage(new SignedMessage(0, sender, receiver, message, signature));
     }
 
+    // TODO add hashing
     public static void verifyAll() throws Exception {
         List<PublicKey> keys = getAllPublicKeys();
         SignedMessage[] messages = RestClient.getAllSignedMessages();
@@ -150,25 +152,3 @@ public class Main {
     }
 
 }
-
-
-/*
-Welke sleutel heb je gebruikt?
-    public
-Wat is het nut van een sleutelpaar?
-    public kan privateenc decrypten en vice versa
-Wie kan in dit geval het bericht decrypten?
-    de gene met de private key
-Op welke manier verschilt het nut van versleutelen met de ene sleutel tegenover de andere?
-    public key = alleen 1 iemand mag weten wat de inhoud is
-    private key = iedereen mag content weten echter zien dat het van mij komt
-
-Bonus:
-Sommige key-generators moeten worden geinitialiseerd.
-Waarom is dit?
-    specify key size
-    init zet securerandom als 'source of randomness' die gebruikt wordt tijdens key generation
-Zijn er specifieke zaken waar je daarbij op moet letten?
-    geen constante waarde meegeven als je een unieke key wil
-Zo ja, wat?
- */
